@@ -241,8 +241,6 @@ def phyllotaxis_animate():
         x = r * math.cos(a) + 200
         y = r * math.sin(a) + 200
         
-        print(x, y)
-        
         if((abs(x) >= 400 and abs(y) >= 400) or (abs(x) <= 0 and abs(y) <= 0)):
             break
         
