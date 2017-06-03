@@ -153,7 +153,6 @@ def phyllotaxis_animate():
     global stop
     global mainColor
     
-    
     # Make sure the canvas is reset every time the ANIMATE button is pressed
     canvas.delete("all")
     canvas.errorMessage.config(text = "No Errors")   
@@ -233,19 +232,18 @@ def phyllotaxis_animate():
     n = 0
     c = int(density)
     
-    while(True):
-        
-        if stop:
-            break
-        
+    stop = False
+    
+    while(not stop):
         a = n * angle
         r = c * math.sqrt(n)
     
         x = r * math.cos(a) + 200
         y = r * math.sin(a) + 200
         
-        if(x >= 400 and y >= 400):
+        print(x, y)
         
+        if((abs(x) >= 400 and abs(y) >= 400) or (abs(x) <= 0 and abs(y) <= 0)):
             break
         
         #Setup color values
@@ -254,7 +252,7 @@ def phyllotaxis_animate():
                 fh = (eval(h)%256)/256
             except:
                 fh = 1
-                canvas.errorMessage.config(text = "Division by zero, using default values")   
+                canvas.errorMessage.config(text = "Hue: Division by zero, using default values")   
         elif mainColor == None:
             fh = h
         
@@ -263,7 +261,7 @@ def phyllotaxis_animate():
                 fs = (eval(s)%256)/256
             except:
                 fs = 1
-                canvas.errorMessage.config(text = "Division by zero, using default values")        
+                canvas.errorMessage.config(text = "Saturation: Division by zero, using default values")        
         else:
             fs = s
             
@@ -272,7 +270,7 @@ def phyllotaxis_animate():
                 fl = (eval(l)%256)/256
             except:
                 fl = 1
-                canvas.errorMessage.config(text = "Division by zero, using default values")   
+                canvas.errorMessage.config(text = "Luminosity: Division by zero, using default values")   
         else:
             fl = l
         
@@ -284,40 +282,40 @@ def phyllotaxis_animate():
             canvas.create_oval(x, y, x + 8, y + 8, fill = color, outline = '#000000')
         n += 1
         
-        canvas.after(0)
         canvas.update()
-    stop = False
 
-def phyllotaxis_test():
-    n = 0
-    c = 4
-    while(True):
-        a = n * 137.5
-        r = c * math.sqrt(n)
-
-        x = r * math.cos(a) + 200 
-        y = r * math.sin(a) + 200
-        
-        if(x >= 400 and y >= 400):
-            break
-        
-        color_transfer = colorsys.hsv_to_rgb(1, 1, 1)
-        color = "#%02x%02x%02x" % (color_transfer[0]*255, color_transfer[1]*255, color_transfer[2]*255)
-        outline = '#000000'
-        canvas.create_oval(x, y, x + 8, y + 8, fill =      
-                           color, outline = outline)
-
-        n += 1
-        
-        #canvas.after(0)
-        canvas.update()
+# Used for testing basic features
+# def phyllotaxis_test():
+#     n = 0
+#     c = 4
+#     while(True):
+#         a = n * 137.5
+#         r = c * math.sqrt(n)
+# 
+#         x = r * math.cos(a) + 200 
+#         y = r * math.sin(a) + 200
+#         
+#         if(x >= 400 and y >= 400):
+#             break
+#         
+#         color_transfer = colorsys.hsv_to_rgb(1, 1, 1)
+#         color = "#%02x%02x%02x" % (color_transfer[0]*255, color_transfer[1]*255, color_transfer[2]*255)
+#         outline = '#000000'
+#         canvas.create_oval(x, y, x + 8, y + 8, fill =      
+#                            color, outline = outline)
+# 
+#         n += 1
+#         
+#         #canvas.after(0)
+#         canvas.update()
 
 def stopAnim():
     global stop
     stop = True
     
 def clearCanvas():
-    stopAnim()
+    global stop
+    stop = True
     canvas.delete('all')
 
 # Creates the button that starts the animation 
